@@ -326,3 +326,58 @@ void NBUDP::handleUrc(const String& urc)
     }
   }
 }
+
+
+void NBUDP::send_udp(String data)
+{
+  // Check if socket is open.
+  if (_socket < 0)
+  {
+    return;
+  }
+
+  // COMMAND
+  // "AT+USOST=0,\"104.199.85.211\",28399,length, message(hex)";
+
+  String command = "AT+USOST=";
+  command += _socket;
+
+  command += ",\"";
+  command += SERVERIPADDRESS;
+  command += "\",";
+
+  command += SERVERPORT;
+  command += ",";
+
+  String complete_data = "\001" + String(TOKEN) + data;
+
+  command += String(complete_data.length());
+  command += ",\"";
+
+  for (size_t i = 0; i < complete_data.length(); i++)
+  {
+    byte b = complete_data.charAt(i);
+
+    byte n1 = (b >> 4) & 0x0f;
+    byte n2 = (b & 0x0f);
+
+    command += (char)(n1 > 9 ? 'A' + n1 - 10 : '0' + n1);
+    command += (char)(n2 > 9 ? 'A' + n2 - 10 : '0' + n2);
+  }
+
+  command += "\"";
+
+  MODEM.send(command);
+
+
+  if (MODEM.waitForResponse() == 1)
+  {
+    Serial.println("Send succeded!");
+    return;
+  }
+  else
+  {
+    Serial.println("Send failed!");
+    return;
+  }
+}
