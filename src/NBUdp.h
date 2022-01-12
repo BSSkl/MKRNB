@@ -74,6 +74,10 @@ public:
   virtual uint16_t remotePort();
 
   virtual void handleUrc(const String& urc);
+  
+  // Added
+  void send_udp(String data)
+
 
 private:
   int _socket;
