@@ -76,7 +76,7 @@ public:
   virtual void handleUrc(const String& urc);
   
   // Added
-  void send_udp(String data)
+  virtual void send_udp(String data);
 
 
 private:
