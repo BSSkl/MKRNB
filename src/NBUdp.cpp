@@ -41,7 +41,7 @@ NBUDP::~NBUDP()
   MODEM.removeUrcHandler(this);
 }
 
-uint8_t NBUDP::begin()
+uint8_t NBUDP::begin(uint16_t port)
 {
   String response;
 
