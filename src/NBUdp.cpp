@@ -53,11 +53,7 @@ uint8_t NBUDP::begin(uint16_t port)
 
   _socket = response.charAt(response.length() - 1) - '0';
 
-  MODEM.sendf("AT+USOLI=%d,%d", _socket, port);
-  if (MODEM.waitForResponse(10000) != 1) {
-    stop();
-    return 0;
-  }
+  // Removed socket listening.
 
   return 1;
 }
